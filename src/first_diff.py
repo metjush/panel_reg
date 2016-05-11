@@ -68,7 +68,7 @@ class FirstDiff(object):
         y_series = self.fd_y.unstack()
 
         # fit regression model with statsmodels
-        results = sm.OLS(y_series.values, x_dataframe.values).fit()
+        results = sm.OLS(y_series.values, x_dataframe.values, missing='drop').fit()
 
         print(results.summary())
 
