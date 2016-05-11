@@ -4,6 +4,7 @@ First Differences for Panel data
 
 import numpy as np
 import pandas as pd
+import statsmodels.api as sm
 
 
 class FirstDiff(object):
@@ -39,6 +40,8 @@ class FirstDiff(object):
         self.y_panel = self.panel.loc[:, :, self.depvar].astype(np.float)
         self.x_panel = self.panel.loc[:, :, self.indvars].astype(np.float)
 
+        self.result = None
+
     def __first_diff(self):
         """
         First difference the supplied data
@@ -53,8 +56,18 @@ class FirstDiff(object):
 
     def estimate(self):
         """
-
-        :return:
+        Estimate the first differenced OLS
+        :return: results
         """
+        # first, make a dataframe out of the panel of indvars
+        x_dataframe = self.fd_x.transpose(2,0,1).to_frame()
+        # unstack the depvar dataframe into a series
+        y_series = self.fd_y.unstack()
 
-        pass
+        # fit regression model with statsmodels
+        results = sm.OLS(y_series.values, x_dataframe.values).fit()
+
+        print(results.summary())
+
+        self.result = results
+
