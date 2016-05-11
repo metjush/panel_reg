@@ -13,7 +13,7 @@ class FirstDiff(object):
         :param panel: Pandas Panel where items are entities, major axis is time and minor axis are variables
         :param y: name of the dependent variable
         :param x: name of the independent variables
-        :return:
+        :return: nothing
         """
 
         assert type(panel) is pd.Panel
@@ -36,5 +36,25 @@ class FirstDiff(object):
         self.depvar = y
         self.indvars = x
 
-        self.y_panel = self.panel.loc[:, :, self.depvar]
-        self.x_panel = self.panel.loc[:, :, self.indvars]
+        self.y_panel = self.panel.loc[:, :, self.depvar].astype(np.float)
+        self.x_panel = self.panel.loc[:, :, self.indvars].astype(np.float)
+
+    def __first_diff(self):
+        """
+        First difference the supplied data
+        :return: nothing
+        """
+
+        self.fd_y = self.y_panel.diff(1)
+        self.fd_x = self.x_panel.copy()
+        for indvar in self.indvars:
+            slice = self.x_panel.loc[:,:,indvar].diff(1)
+            self.fd_x.loc[:,:,indvar] = slice
+
+    def estimate(self):
+        """
+
+        :return:
+        """
+
+        pass
