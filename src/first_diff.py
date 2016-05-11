@@ -59,6 +59,9 @@ class FirstDiff(object):
         Estimate the first differenced OLS
         :return: results
         """
+        # first difference data
+        self.__first_diff()
+
         # first, make a dataframe out of the panel of indvars
         x_dataframe = self.fd_x.transpose(2,0,1).to_frame()
         # unstack the depvar dataframe into a series
