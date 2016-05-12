@@ -141,7 +141,7 @@ class PanelBuilder(object):
 
                 assert frame_values.shape is (self.dimensions[0], self.dimensions[2])
 
-                self.data_dict[time] = frame_values
+                self.data_dict[time] = pd.DataFrame(frame_values, index=self.entities, columns=self.variables)
 
             # if it is a multilist
             else:
@@ -164,7 +164,7 @@ class PanelBuilder(object):
 
                 assert frame.shape is (self.dimensions[0], self.dimensions[2])
 
-                self.data_dict[time] = frame_values
+                self.data_dict[time] = pd.DataFrame(frame, index=self.entities, columns=self.variables)
 
     def frames_by_entity(self, use_index=False, use_columns=False, *frames):
         """
@@ -207,7 +207,7 @@ class PanelBuilder(object):
 
                 assert frame_values.shape is (self.dimensions[1], self.dimensions[2])
 
-                self.data_dict[item] = frame_values
+                self.data_dict[item] = pd.DataFrame(frame_values, index=self.time_series, columns=self.variables)
 
             # if it is a multilist
             else:
@@ -230,4 +230,37 @@ class PanelBuilder(object):
 
                 assert frame.shape is (self.dimensions[1], self.dimensions[2])
 
-                self.data_dict[item] = frame_values
+                self.data_dict[item] = pd.DataFrame(frame, index=self.time_series, columns=self.variables)
+
+    def panel_from_array(self, multiarray):
+        """
+        Make panel from 3D numpy array
+        :param multiarray: 3D numpy array
+        :return: nothing
+        """
+
+        pass
+
+    def save_panel(self):
+        """
+        Take all supplied data and create the final pandas Panel
+        :return: pandas Panel
+        """
+
+        assert 0 not in self.dimensions
+        assert self.data_dict != {}
+
+        if self.dict_key == 'time':
+            assert len(self.data_dict) == self.dimensions[1]
+            panel = pd.Panel(self.data_dict, index=self.time_series, major_axis=self.entities, minor_axis=self.variables).transpose(1,0,2) # put entities into items
+        elif self.dict_key == 'entity':
+            assert len(self.data_dict) == self.dimensions[0]
+            panel = pd.Panel(self.data_dict, major_axis=self.time_series, index=self.entities, minor_axis=self.variables)
+        else:
+            # not a dict, but a 3D np array
+            panel = pd.Panel(self.data_dict, major_axis=self.time_series, index=self.entities, minor_axis=self.variables)
+
+        print(panel)
+        return panel
+
+
