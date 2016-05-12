@@ -23,9 +23,9 @@ Each method returns the object (e.g. `FixedEffects`), which you then instantiate
 
 The `FixedEffects` class implements a standard fixed effects linear regression:
 
-\\[
-y_{it} = x_{it}\beta + a_i ( + d_t ) + u_{it}
-\\]
+```math
+y_it = x_it . B + a_i ( + d_t ) + u_it
+```
 
 ## First Differences
 
