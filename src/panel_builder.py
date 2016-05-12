@@ -239,7 +239,35 @@ class PanelBuilder(object):
         :return: nothing
         """
 
-        pass
+        if type(multiarray) is list:
+            multiarray = np.array(multiarray)
+        assert type(multiarray) is np.array
+        assert len(multiarray.shape) == 3
+
+        if 0 not in self.dimensions:
+            assert multiarray.shape == tuple(self.dimensions)
+        else:
+            shape = multiarray.shape
+            if self.dimensions[0] == 0:
+                print('Entity dimension not yet set, using the first dimension in array %d' % shape[0])
+                self.dimensions[0] == shape[0]
+                self.entities = np.arange(shape[0])
+            assert self.dimensions[0] == shape[0]
+
+            if self.dimensions[1] == 0:
+                print('Time dimension not yet set, using the second dimension in array %d' % shape[1])
+                self.dimensions[1] == shape[1]
+                self.time_series = np.arange(shape[1])
+            assert self.dimensions[1] == shape[1]
+
+            if self.dimensions[2] == 0:
+                print('Variable dimension not yet set, using the third dimension in array %d' % shape[2])
+                self.dimensions[2] == shape[2]
+                self.variables = np.arange(shape[2])
+            assert self.dimensions[2] == shape[2]
+
+        self.dict_key = 'array'
+        self.data_dict = multiarray
 
     def save_panel(self):
         """
