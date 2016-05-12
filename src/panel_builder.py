@@ -50,6 +50,15 @@ class PanelBuilder(object):
 
         times = times.flatten() # just in case if it were passed as (1,x) or something
 
+        if self.dimensions[1] > 0:
+            print('Time dimension has already been set to %d' % self.dimensions[1])
+            if len(times) == self.dimensions[1]:
+                print('Renaming time dimension to newly supplied')
+                self.time_series = times
+            else:
+                print('Dimensions don\'t match: %d vs %d' % (self.dimensions[1], len(times)))
+            return
+
         self.time_series = times
         self.dimensions[1] = len(times)
         print('Time dimension set to size %d' % self.dimensions[1])
@@ -73,6 +82,15 @@ class PanelBuilder(object):
 
         entities = entities.flatten()
 
+        if self.dimensions[0] > 0:
+            print('Entity dimension has already been set to %d' % self.dimensions[0])
+            if len(entities) == self.dimensions[0]:
+                print('Renaming entity dimension to newly supplied')
+                self.entities = entities
+            else:
+                print('Dimensions don\'t match: %d vs %d' % (self.dimensions[0], len(entities)))
+            return
+
         self.entities = entities
         self.dimensions[0] = len(entities)
         print('Entity dimension set to size %d' % self.dimensions[0])
@@ -95,6 +113,15 @@ class PanelBuilder(object):
         assert type(variables) is np.array
 
         variables = variables.flatten()
+
+        if self.dimensions[2] > 0:
+            print('Variable dimension has already been set to %d' % self.dimensions[2])
+            if len(variables) == self.dimensions[2]:
+                print('Renaming variable dimension to newly supplied')
+                self.variables = variables
+            else:
+                print('Dimensions don\'t match: %d vs %d' % (self.dimensions[2], len(variables)))
+            return
 
         self.variables = variables
         self.dimensions[2] = len(variables)
