@@ -23,7 +23,7 @@ Each method returns the object (e.g. `FixedEffects`), which you then instantiate
 
 The `FixedEffects` class implements a standard fixed effects linear regression:
 
-![Fixed Effects Model](http://mathtran.open.ac.uk/cgi-bin/mathtran?D=1;tex=y_{it} = x_{it} \beta + a_i ( + d_t ) + u_{it})
+![Fixed Effects Model](http://mathtran.open.ac.uk/cgi-bin/mathtran?D=1;tex=y_{it} = x_{it} \beta \+ a_i ( \+ d_t ) \+ u_{it})
 
 To remove the unit-level effect `a` (and the time effect `d`), we demean the data:
 
