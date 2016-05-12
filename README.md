@@ -19,6 +19,16 @@ Then, everything else then is implemented can be accessed from this object:
 
 Each method returns the object (e.g. `FixedEffects`), which you then instantiate based on the documention below.
 
+## Fixed Effects
+
+The `FixedEffects` class implements a standard fixed effects linear regression:
+
+\begin{equation}
+y_{it} = x_{it}\beta + a_i ( + d_t ) + u_{it}
+\end{equation}
+
+## First Differences
+
 ## Panel Builder
 
 The `PanelBuilder` class is written to help you create a `pandas.Panel` from your data, which can then be passed into 
@@ -32,7 +42,7 @@ A `pandas.Panel` instance is essentially a 3D dataset. The first axis is called 
 units that we are following over time). The second axis is called `major` and is generally used for specifying time. 
 The third axis is called `minor` and it refers to the actual variables we are measuring.
 
-For more information and API reference for `pandas.Panel`, see: [http://pandas.pydata.org/pandas-docs/stable/generated/pandas.Panel.html]
+For more information and API reference for `pandas.Panel`, see: http://pandas.pydata.org/pandas-docs/stable/generated/pandas.Panel.html
 
 ### Naming dimensions
 
@@ -73,6 +83,3 @@ The dimensions of the array are expected to be `(entities, times, variables)`.
 
 ### Creating the panel
 
-## Fixed Effects
-
-## First Differences
