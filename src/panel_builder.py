@@ -316,6 +316,7 @@ class PanelBuilder(object):
             panel = pd.Panel(self.data_dict, major_axis=self.time_series, index=self.entities, minor_axis=self.variables)
 
         print(panel)
+        self.panel = panel
         return panel
 
 
