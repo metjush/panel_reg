@@ -81,3 +81,22 @@ class FixedEffects(object):
                 slice_mean = slice.mean()
                 self.x_demeaned.loc[:, :, indvar] = self.x_demeaned.loc[:, :, indvar] - slice_mean
 
+    def estimate(self):
+        """
+        Estimate the FE model with OLS
+        :return: results
+        """
+        # demean
+        self.__demean()
+
+        # first, make a dataframe out of the panel of indvars
+        x_dataframe = self.x_demeaned.transpose(2,0,1).to_frame(False) # set to False to not drop NaNs
+        # unstack the depvar dataframe into a series
+        y_series = self.y_demeaned.unstack()
+
+        # fit regression model with statsmodels
+        results = sm.OLS(y_series.values, x_dataframe.values, missing='drop').fit()
+
+        print(results.summary(self.depvar, self.indvars))
+
+        self.result = results
