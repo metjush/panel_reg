@@ -166,3 +166,68 @@ class PanelBuilder(object):
 
                 self.data_dict[time] = frame_values
 
+    def frames_by_entity(self, use_index=False, use_columns=False, *frames):
+        """
+        Pass frames (time * variables) by entity as list
+        :param use_index: whether to use index from dataframes (time, if they are pandas)
+        :param use_columns: whether to use columns from dataframes (variables, if they are pandas)
+        :param frames: list of frame-like data
+        :return: nothing
+        """
+
+        # check if fits with already supplied entities
+        count = len(frames)
+        if self.dimensions[0] > 0:
+            assert count == self.dimensions[0]
+        else:
+            print('Entity dimension not yet set, using the number of passed dataframes: %d' % count)
+            print('Setting the entities to be a list of integers starting from 0')
+            self.dimensions[0] = count
+            self.entities = np.arange(count)
+
+        # iterate over each frame
+        self.dict_key = 'entity'
+        checked_indices = False
+        for item, frame in zip(self.entities, frames):
+            # check if it is a pandas frame
+            if type(frame) is pd.DataFrame:
+                frame_values = frame.values
+
+                # check dimensionality and use index/column names if requred
+                if not checked_indices:
+                    if self.dimensions[1] == 0:
+                        print('Time dimension not yet set, using the number of rows in first dataframe: %d' % frame_values.shape[0])
+                        self.dimensions[1] = frame_values.shape[0]
+                        self.time_series = frame.index.values if use_index else np.arange(self.dimensions[0])
+                    if self.dimensions[2] == 0:
+                        print('Variable dimension not yet set, using the number of columns in first dataframe: %d' % frame_values.shape[1])
+                        self.dimensions[2] = frame_values.shape[1]
+                        self.variables = frame.columns.values if use_columns else np.arange(self.dimensions[2])
+                    checked_indices = True
+
+                assert frame_values.shape is (self.dimensions[1], self.dimensions[2])
+
+                self.data_dict[item] = frame_values
+
+            # if it is a multilist
+            else:
+                if type(frame) is list:
+                    frame = np.array(frame)
+
+                # if it is a np.array
+                assert type(frame) is np.array
+
+                if not checked_indices:
+                    if self.dimensions[1] == 0:
+                        print('Time dimension not yet set, using the number of rows in first dataframe: %d' % frame.shape[0])
+                        self.dimensions[1] = frame.shape[0]
+                        self.time_series = np.arange(self.dimensions[0])
+                    if self.dimensions[2] == 0:
+                        print('Variable dimension not yet set, using the number of columns in first dataframe: %d' % frame.shape[1])
+                        self.dimensions[2] = frame.shape[1]
+                        self.variables = np.arange(self.dimensions[2])
+                    checked_indices = True
+
+                assert frame.shape is (self.dimensions[1], self.dimensions[2])
+
+                self.data_dict[item] = frame_values
