@@ -23,15 +23,15 @@ Each method returns the object (e.g. `FixedEffects`), which you then instantiate
 
 The `FixedEffects` class implements a standard fixed effects linear regression:
 
-![Fixed Effects Model](http://www.codecogs.com/gif.latex?y_{it} = x_{it} \\beta + a_i ( + d_t ) + u_{it})
+![Fixed Effects Model](http://mathtran.open.ac.uk/cgi-bin/mathtran?D=1;tex=y_{it} = x_{it} \\beta + a_i ( + d_t ) + u_{it})
 
 To remove the unit-level effect `a` (and the time effect `d`), we demean the data:
 
-![Unit mean](http://www.codecogs.com/gif.latex?y^'_i = \\frac{\\sum_{t}y_{it}}{T})
+![Unit mean](http://mathtran.open.ac.uk/cgi-bin/mathtran?D=1;tex=y^{'}_i = \\frac{\\sum_{t}y_{it}}{T})
 
-![Time mean](http://www.codecogs.com/gif.latex?y^'_t = \\frac{\\sum_{i}y_{it}}{n})
+![Time mean](http://mathtran.open.ac.uk/cgi-bin/mathtran?D=1;tex=y^{'}_t = \\frac{\\sum_{i}y_{it}}{n})
 
-![Overall mean](http://www.codecogs.com/gif.latex?y^{''} = \\frac{\\sum_{t,i}y_{it}}{nT})
+![Overall mean](http://mathtran.open.ac.uk/cgi-bin/mathtran?D=1;tex=y^{''} = \\frac{\\sum_{t,i}y_{it}}{nT})
 
 ## First Differences
 
